@@ -136,35 +136,24 @@ void PmergeMe::sortVectorAlgorithm(){
     if(vectorData.size() % 2 != 0){
         bigVector.push_back(vectorData[vectorData.size() - 1]);
     }
-    //sort smallVector
-    for(size_t i = 0; i < smallVector.size(); i++){
-        for(size_t j = i + 1 ; j < bigVector.size(); j++){
-            if(bigVector[i] > bigVector[j]){
-                std::swap(bigVector[i], bigVector[j]);
-            }
-        }
-    }
-
-    // find the position of the biggest number in the original vector
-    int biggestNum = bigVector[bigVector.size() - 1];
-    size_t pos = 0;
-    for(size_t i = 0; i < vectorData.size(); i++){
-        if(vectorData[i] == biggestNum){
-            pos = i;
-            break;
-        }
-    }
-
-    // insert the biggest number's partner from the original vector in the sorted bigvector
-    if(pos % 2 == 0){
-        int index = pos + 1;
-    } else{
-        int index = pos - 1;
-    }
+   
+    // sort the small vector
+    sortSmallVector(smallVector);
+    // rearrange the big vector to follow the 
 
 
 }
 
+void PmergeMe::sortSmallVector(std::vector<int> &smallVector){
+    // sort the small vector
+    for(size_t i = 0; i < smallVector.size() - 1; i++){
+        for(size_t j = i + 1; j < smallVector.size(); j++){
+            if(smallVector[i] > smallVector[j]){
+                std::swap(smallVector[i], smallVector[j]);
+            }
+        }
+    }
+}
 
 void PmergeMe::readSortDeque(){
     clock_t start = clock();

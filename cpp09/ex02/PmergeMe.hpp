@@ -34,6 +34,7 @@ public:
     void readSortVector();
     void readSortDeque();
     void sortVectorAlgorithm();
+    void sortSmallVector(std::vector<int> &smallVector);
     void sortDequeAlgorithm();
     void printOutput() const;
     void clearData();
