@@ -15,6 +15,7 @@ PmergeMe::PmergeMe(const PmergeMe &other){
 
 PmergeMe& PmergeMe::operator=(const PmergeMe &other){
     if(this != &other){
+        input = other.input;
         vectorData = other.vectorData;
         dequeData = other.dequeData;
         sortedVector = other.sortedVector;
