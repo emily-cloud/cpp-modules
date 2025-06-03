@@ -111,20 +111,10 @@ T PmergeMe::fordJohnsonSort(T &container) {
         return container; // No need to sort if the container has less than 2 elements
     }
     T bigs, smalls;
-    for(size_t i = 0; i + 1 < container.size(); i += 2){
-        int num1 = container[i];
-        int num2 = container[i + 1];
-        if(num1 > num2){
-            std::swap(num1, num2);
-        }
-        smalls.push_back(num1);
-        bigs.push_back(num2);
-    }
+    typename PairContainer<T>::type pairs;
 
-    if(container.size() % 2 != 0){
-        smalls.push_back(container[container.size() - 1]);
-    }
-
+    comparePair(container, bigs, smalls, pairs);
+    
     std::cout << "Bigger elements: ";
     debugPrint(bigs);
     std::cout << "Smaller elements: ";
@@ -132,21 +122,48 @@ T PmergeMe::fordJohnsonSort(T &container) {
 
     T insertOrder;
     T sortedBigs = fordJohnsonSort(bigs);
-    generateJacobsthalOrder(smalls.size(), insertOrder);
+    
     //reorder the smalls to make sure has the same order as the bigs
-    //rearrangeSmalls(smalls, bigs);
+    T reorderedSmalls;
+    std::cout << "reorderedsmalls: ";
+    rearrangeSmalls(pairs, reorderedSmalls, sortedBigs);
+    if (container.size() % 2 != 0) {
+        reorderedSmalls.push_back(pairs.back().first);
+    }
+    debugPrint(reorderedSmalls);
 
+    generateJacobsthalOrder(smalls.size(), insertOrder);
     std::cout << "Insert order: ";
     debugPrint(insertOrder);
 
     for (size_t i = 0; i < insertOrder.size(); ++i) {
         size_t idx = insertOrder[i];
         if (idx < smalls.size())
-            binaryInsert(sortedBigs, smalls[idx]);
+            binaryInsert(sortedBigs, reorderedSmalls[idx]);
     }
     std::cout << "Sorted bigs after insertion: ";
     debugPrint(sortedBigs);
     return sortedBigs;
+}
+
+template<typename T, typename PairContainer>
+void PmergeMe::comparePair(const T &container, T &bigs, T &smalls, PairContainer &pairs) {
+   for(size_t i = 0; i + 1 < container.size(); i += 2){
+        int num1 = container[i];
+        int num2 = container[i + 1];
+        if(num1 > num2){
+            std::swap(num1, num2);
+        }
+        smalls.push_back(num1);
+        bigs.push_back(num2);
+        pairs.push_back(std::make_pair(num1, num2));
+    }
+
+    if(container.size() % 2 != 0){
+        smalls.push_back(container[container.size() - 1]);
+        pairs.push_back(std::make_pair(container.back(), -1)); // dummy -1 for unmatched
+    }
+
 }
 
 template<typename T>
@@ -163,13 +180,17 @@ void PmergeMe::binaryInsert(T& vec, int value) {
     vec.insert(vec.begin() + left, value);
 }
 
-// template<typename T>
-// void PmergeMe::rearrangeSmalls(T &smalls, T &bigs) {
-//     // Ensure smalls are in the same order as bigs
-//     T orderedSmalls;
-//     for(int 
-//     smalls = orderedSmalls; // Update smalls with the ordered version
-// }
+template<typename T, typename PairContainer>
+void PmergeMe::rearrangeSmalls(PairContainer &pairs, T &reorderedSmalls, T &sortedBigs) {
+       for (typename T::const_iterator it = sortedBigs.begin(); it != sortedBigs.end(); ++it) {
+        for (size_t j = 0; j < pairs.size(); ++j) {
+            if (pairs[j].second == *it) {
+                reorderedSmalls.push_back(pairs[j].first);
+                break;
+            }
+        }
+    }
+}
 
 template<typename T>
 void PmergeMe::generateJacobsthalOrder(size_t n, T &order) {

@@ -34,10 +34,25 @@ public:
     void readSortVector();
     void readSortDeque();
     template<typename T> T fordJohnsonSort(T &container);
+    template<typename T, typename PairContainer> void comparePair(const T &container, T &bigs, T &smalls, PairContainer &pairs);
     template<typename T> void generateJacobsthalOrder(size_t n, T &order);
-   // template<typename T> void rearrangeSmalls(T &smalls, T &bigs);
+    template<typename T, typename PairConatainer> void rearrangeSmalls(PairConatainer &pairs,T &smalls, T &bigs);
     template<typename T> void binaryInsert(T &vec, int value);
     template<typename T> void debugPrint(const T &container) const;
     void printOutput() const;
     void clearData();
+};
+
+
+template<typename T>
+struct PairContainer;
+
+template<>
+struct PairContainer<std::vector<int> > {
+    typedef std::vector<std::pair<int, int> > type;
+};
+
+template<>
+struct PairContainer<std::deque<int> > {
+    typedef std::deque<std::pair<int, int> > type;
 };
