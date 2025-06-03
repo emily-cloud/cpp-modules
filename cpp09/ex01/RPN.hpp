@@ -3,12 +3,13 @@
 #include <iostream>
 #include <stack>
 #include <algorithm>
+#include <sstream>
 
 class RPN{
 private:
-    std::stack<char> expressions;
-    std::stack<int> numbers;
+    std::stack<char> numbers;
     int result;
+    std::string input;
 
 public:
     RPN();
@@ -19,5 +20,4 @@ public:
     bool valideInput(std::string input);
     void calculate();
     void printResult();
-    void clearStacks();
 };

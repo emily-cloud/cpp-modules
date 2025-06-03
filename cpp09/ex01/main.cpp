@@ -10,6 +10,5 @@ int main(int argc, char **argv){
     rpn.readInput(argv[1]);
     rpn.calculate();
     rpn.printResult();
-    rpn.clearStacks();
     return 0;
 }

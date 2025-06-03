@@ -2,35 +2,25 @@
 
 RPN::RPN() : result(0) {}
 
-RPN::RPN(const RPN &other) : expressions(other.expressions), 
-    numbers(other.numbers), result(other.result) {}
+RPN::RPN(const RPN &other) : numbers(other.numbers), 
+     result(other.result),input(other.input) {}
 
 RPN& RPN::operator=(const RPN &other) {
     if(this != &other){
-        expressions = other.expressions;
         numbers = other.numbers;
         result = other.result;
+        input = other.input;
     }
     return *this;
 }
 
 RPN::~RPN() {}
 
-void RPN::readInput(std::string input) {
-    if(!valideInput(input)){
+void RPN::readInput(std::string rawinput) {
+    if(!valideInput(rawinput)){
         return;
     }
-    std::reverse(input.begin(), input.end());
-    for(std::string::iterator it = input.begin();it != input.end(); ++it){
-        if(*it == ' '){
-            continue;
-        }
-        if( isdigit(*it)){
-            numbers.push(*it - '0');
-        } else {
-            expressions.push(*it);
-        }
-    }
+    input = rawinput;
 }
 
 bool RPN::valideInput(std::string input){
@@ -59,35 +49,50 @@ bool RPN::valideInput(std::string input){
 }
 
 void RPN::calculate() {
-    while(!expressions.empty()){
-        char op = expressions.top();
-        expressions.pop();
-        int num1 = numbers.top();
-        numbers.pop();
-        int num2 = numbers.top();
-        numbers.pop();
-        switch(op){
-            case '+':
-                result = num1 + num2;
-                break;
-            case '-':
-                result = num1 - num2;
-                break;
-            case '*':
-                result = num1 * num2;
-                break;
-            case '/':
-                if(num2 == 0){
-                    std::cerr << "Error: division by zero" << std::endl;
-                    return;
-                }
-                result = num1 / num2;
-                break;
-            default:
-                std::cerr << "Error: invalid operator" << std::endl;
-                return;
+    std::istringstream iss(input);
+    std::string element;
+    while(iss >> element){
+        if(element.size() == 1 && isdigit(element[0])){
+            numbers.push(std::stoi(element));
         }
-        numbers.push(result);
+        else if (element == "+" || element == "-" || element == "*" || element == "/") {
+            char op = element[0];
+            if (numbers.size() < 2) {
+                std::cerr << "Error: insufficient operands" << std::endl;
+                return;
+            }
+            int num2 = numbers.top();
+            numbers.pop();
+            int num1 = numbers.top();
+            numbers.pop();
+
+            switch(op){
+                case '+':
+                    result = num1 + num2;
+                    break;
+                case '-':
+                    result = num1 - num2;
+                    break;
+                case '*':
+                    result = num1 * num2;
+                    break;
+                case '/':
+                    if(num2 == 0){
+                        std::cerr << "Error: division by zero" << std::endl;
+                        return;
+                    }
+                    result = num1 / num2;
+                    break;
+                default:
+                    std::cerr << "Error: invalid operator" << std::endl;
+                return;
+            }
+            numbers.push(result);
+        } 
+        else {
+            std::cerr << "Error: unknown token '" << element << "'" << std::endl;
+            return;
+        }
     }
 }
 
@@ -96,10 +101,5 @@ void RPN::printResult() {
         return;
     }
     else
-        std::cout << "Result: " << numbers.top() << std::endl;
-}
-
-void RPN::clearStacks() {
-    numbers.clear();
-    expressions.clear();
+        std::cout << "Result: " << result << std::endl;
 }
