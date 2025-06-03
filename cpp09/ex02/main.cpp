@@ -1,16 +1,15 @@
 #include "PmergeMe.hpp"
 //random input generation command:
-// jot -r 4000 1 100000 | sort -n | uniq | head -n 3000 | tr '\n' ' ' | xargs ./PmergeMe
+// jot -r 8000 1 10000 | awk '!seen[$0]++' | head -n 3000 | tr '\n' ' ' | tee >(wc -w) | xargs ./PmergeMe
 
 int main(int argc, char** argv){
-
     if(argc < 2){
         std::cerr << "Usage: " << argv[0] << " <numbers>" << std::endl;
         return 1;
     }
 
     PmergeMe pmergeme;
-    pmergeme.prepareReadInput(argc, argv);
+    pmergeme.readVarifyInput(argc, argv);
     pmergeme.readSortVector();
     pmergeme.readSortDeque();
     pmergeme.printOutput();

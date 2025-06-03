@@ -28,19 +28,19 @@ public:
     PmergeMe& operator=(const PmergeMe &other);
     ~PmergeMe();
 
-    void prepareReadInput(int argc, char **argv);
+    void readVarifyInput(int argc, char **argv);
     template<typename T> void readInputToContainer(T &container);
     bool valideInputSyntax(std::string input);
     void readSortVector();
     void readSortDeque();
     template<typename T> T fordJohnsonSort(T &container);
-    template<typename T, typename PairContainer> void comparePair(const T &container, T &bigs, T &smalls, PairContainer &pairs);
+    template<typename T, typename PairContainer> void comparePair(const T &container, T &bigs, PairContainer &pairs);
     template<typename T> void generateJacobsthalOrder(size_t n, T &order);
     template<typename T, typename PairConatainer> void rearrangeSmalls(PairConatainer &pairs,T &smalls, T &bigs);
     template<typename T> void binaryInsert(T &vec, int value);
-    template<typename T> void debugPrint(const T &container) const;
     void printOutput() const;
     void clearData();
+    // template<typename T> void debugPrint(const T &container) const;
 };
 
 

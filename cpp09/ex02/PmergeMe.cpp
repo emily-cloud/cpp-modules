@@ -27,7 +27,7 @@ PmergeMe& PmergeMe::operator=(const PmergeMe &other){
 
 PmergeMe::~PmergeMe() {}
 
-void PmergeMe::prepareReadInput(int argc, char **argv){
+void PmergeMe::readVarifyInput(int argc, char **argv){
     std::string rawInput;
     for(int i = 1; i < argc; i++){
         rawInput += argv[i];
@@ -39,15 +39,12 @@ void PmergeMe::prepareReadInput(int argc, char **argv){
     input = rawInput;
 }
 
-
 bool PmergeMe::valideInputSyntax(std::string input){
     std::vector<int> numbers;
     if(input.empty()){
         std::cerr << "Error: empty input" << std::endl;
         return false;
     }
-
-    std::cout << "debug input: " << input << std::endl;
     std::string::iterator it = input.begin();
     while(it != input.end()){
         if((!isdigit(*it) && *it != ' ') || *it == '\n' || *it == '\t' || *it == '0'){
@@ -63,25 +60,16 @@ bool PmergeMe::valideInputSyntax(std::string input){
             numbers.push_back(num);
             ++it;
         }
-        else if(num == 0 && *it == ' '){
-            ++it;
-        }
     }
 
     for(size_t i = 0; i < numbers.size(); i++) {
         for(size_t j = i + 1; j < numbers.size(); j++) {
             if(numbers[i] == numbers[j]) {
-                // std::cout << "debug " << numbers[i] << std::endl;
-                // std::cout << "debug " << numbers[j] << std::endl;
                 std::cerr << "Error: duplicate number found: " << numbers[i] << std::endl;
                 return false;
             }
         }
     }
-
-    // for(size_t i = 0; i < numbers.size(); i++){
-    //     std::cout <<"debug " << numbers[i] << std::endl;
-    // }
     numbers.clear();
     return true;
 }
@@ -93,91 +81,67 @@ void PmergeMe::readInputToContainer( T& container){
         while(iss >> number){
             int num =  stoi(number);
             container.push_back(num);
-    } 
-}
-
-void PmergeMe::readSortVector(){
-    clock_t start = clock();
-    readInputToContainer(vectorData); 
-    sortedVector = fordJohnsonSort(vectorData);
-    clock_t end = clock();
-
-    vectorDuration  = static_cast<double>(end - start) / CLOCKS_PER_SEC;
+    }
 }
 
 template<typename T>
 T PmergeMe::fordJohnsonSort(T &container) {
     if(container.size() < 2){
-        return container; // No need to sort if the container has less than 2 elements
+        return container;
     }
-    T bigs, smalls;
-    typename PairContainer<T>::type pairs;
 
-    comparePair(container, bigs, smalls, pairs);
-    
-    std::cout << "Bigger elements: ";
-    debugPrint(bigs);
-    std::cout << "Smaller elements: ";
-    debugPrint(smalls);
+    T bigs;
+    typename PairContainer<T>::type pairs;
+    comparePair(container, bigs, pairs);//make pairs, put the bigs in one container and smalls in pair.first
+    T sortedBigs = fordJohnsonSort(bigs);// Sort the bigs using Ford-Johnson algorithm
+
+    T reorderedSmalls;
+    rearrangeSmalls(pairs, reorderedSmalls, sortedBigs);// Rearrange smalls based on the sorted bigs
+    if (container.size() % 2 != 0) {
+        reorderedSmalls.push_back(pairs.back().first); // Handle the last unmatched small
+    }
 
     T insertOrder;
-    T sortedBigs = fordJohnsonSort(bigs);
-    
-    //reorder the smalls to make sure has the same order as the bigs
-    T reorderedSmalls;
-    std::cout << "reorderedsmalls: ";
-    rearrangeSmalls(pairs, reorderedSmalls, sortedBigs);
-    if (container.size() % 2 != 0) {
-        reorderedSmalls.push_back(pairs.back().first);
-    }
-    debugPrint(reorderedSmalls);
-
-    generateJacobsthalOrder(smalls.size(), insertOrder);
-    std::cout << "Insert order: ";
-    debugPrint(insertOrder);
-
+    generateJacobsthalOrder(reorderedSmalls.size(), insertOrder);// Generate Jacobsthal order for smalls
+ 
+    // Insert smalls into sortedBigs according to the Jacobsthal order
     for (size_t i = 0; i < insertOrder.size(); ++i) {
         size_t idx = insertOrder[i];
-        if (idx < smalls.size())
+        if (idx < reorderedSmalls.size())
             binaryInsert(sortedBigs, reorderedSmalls[idx]);
     }
-    std::cout << "Sorted bigs after insertion: ";
-    debugPrint(sortedBigs);
     return sortedBigs;
 }
 
 template<typename T, typename PairContainer>
-void PmergeMe::comparePair(const T &container, T &bigs, T &smalls, PairContainer &pairs) {
+void PmergeMe::comparePair(const T &container, T &bigs, PairContainer &pairs) {
    for(size_t i = 0; i + 1 < container.size(); i += 2){
         int num1 = container[i];
         int num2 = container[i + 1];
         if(num1 > num2){
             std::swap(num1, num2);
         }
-        smalls.push_back(num1);
         bigs.push_back(num2);
         pairs.push_back(std::make_pair(num1, num2));
     }
 
     if(container.size() % 2 != 0){
-        smalls.push_back(container[container.size() - 1]);
         pairs.push_back(std::make_pair(container.back(), -1)); // dummy -1 for unmatched
     }
-
 }
 
 template<typename T>
-void PmergeMe::binaryInsert(T& vec, int value) {
+void PmergeMe::binaryInsert(T& container, int value) {
     size_t left = 0;
-    size_t right = vec.size();
+    size_t right = container.size();
     while (left < right) {
         size_t mid = (left + right) / 2;
-        if (vec[mid] < value)
+        if (container[mid] < value)
             left = mid + 1;
         else
             right = mid;
     }
-    vec.insert(vec.begin() + left, value);
+    container.insert(container.begin() + left, value);
 }
 
 template<typename T, typename PairContainer>
@@ -221,25 +185,24 @@ void PmergeMe::generateJacobsthalOrder(size_t n, T &order) {
     }
 }
 
+void PmergeMe::readSortVector(){
+    clock_t start = clock();
+    readInputToContainer(vectorData); 
+    sortedVector = fordJohnsonSort(vectorData);
+    clock_t end = clock();
+    vectorDuration  = static_cast<double>(end - start) / CLOCKS_PER_SEC;
+}
 
 void PmergeMe::readSortDeque(){
     clock_t start = clock();
     readInputToContainer(dequeData);
     sortedDeque = fordJohnsonSort(dequeData);
-
-    // system sort
-    // for(size_t i = 0; i < dequeData.size(); i++){
-    //     sortedDeque.push_back(dequeData[i]);
-    //     }
-    
-    // std::sort(sortedDeque.begin(), sortedDeque.end());
     clock_t end = clock();
     dequeDuration  = static_cast<double>(end - start) / CLOCKS_PER_SEC;
 }
 
 void PmergeMe::printOutput() const{
     if(vectorData.size() == 0){
-        //std::cerr << "Error: no data to process" << std::endl;
         return;
     }
     std::cout << "Before: ";
@@ -268,11 +231,11 @@ void PmergeMe::clearData(){
     sortedDeque.clear();
 }
 
-template<typename T>    
-void PmergeMe::debugPrint(const T &container) const 
-{
-    for(typename T::const_iterator it = container.begin(); it != container.end(); ++it){
-        std::cout << *it << " ";
-    }
-    std::cout << std::endl;
-}
+// template<typename T>    
+// void PmergeMe::debugPrint(const T &container) const 
+// {
+//     for(typename T::const_iterator it = container.begin(); it != container.end(); ++it){
+//         std::cout << *it << " ";
+//     }
+//     std::cout << std::endl;
+// }
