@@ -1,7 +1,6 @@
 #include "PmergeMe.hpp"
-
-// mac 100 random numbers
-//./PmergeMe `jot -r 3500 1 100000 | uniq | head -100 | tr '\n' ' '`
+//random input generation command:
+// jot -r 4000 1 100000 | sort -n | uniq | head -n 3000 | tr '\n' ' ' | xargs ./PmergeMe
 
 int main(int argc, char** argv){
 

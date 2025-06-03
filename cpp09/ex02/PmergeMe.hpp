@@ -29,13 +29,15 @@ public:
     ~PmergeMe();
 
     void prepareReadInput(int argc, char **argv);
-    void readInputToContainer(std::string type);
+    template<typename T> void readInputToContainer(T &container);
     bool valideInputSyntax(std::string input);
     void readSortVector();
     void readSortDeque();
-    void sortVectorAlgorithm();
-    void sortSmallVector(std::vector<int> &smallVector);
-    void sortDequeAlgorithm();
+    template<typename T> T fordJohnsonSort(T &container);
+    template<typename T> void generateJacobsthalOrder(size_t n, T &order);
+   // template<typename T> void rearrangeSmalls(T &smalls, T &bigs);
+    template<typename T> void binaryInsert(T &vec, int value);
+    template<typename T> void debugPrint(const T &container) const;
     void printOutput() const;
     void clearData();
 };
