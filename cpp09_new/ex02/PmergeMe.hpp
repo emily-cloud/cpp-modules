@@ -12,7 +12,6 @@
 
 struct node {
     int value;
-    node *big;
     node *small;
 };
 
