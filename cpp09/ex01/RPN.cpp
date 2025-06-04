@@ -17,6 +17,10 @@ RPN& RPN::operator=(const RPN &other) {
 RPN::~RPN() {}
 
 void RPN::readInput(std::string rawinput) {
+    if(rawinput.empty()){
+        std::cerr << "Error: empty input" << std::endl;
+        return;
+    }
     if(!valideInput(rawinput)){
         return;
     }

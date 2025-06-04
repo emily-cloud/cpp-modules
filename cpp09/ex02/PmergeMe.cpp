@@ -103,6 +103,8 @@ T PmergeMe::fordJohnsonSort(T &container) {
 
     T insertOrder;
     generateJacobsthalOrder(reorderedSmalls.size(), insertOrder);// Generate Jacobsthal order for smalls
+    // std::cout << "Insert order: ";
+    // debugPrint(insertOrder);
     // Insert smalls into sortedBigs according to the Jacobsthal order
     for (size_t i = 0; i < insertOrder.size(); ++i) {
         size_t idx = insertOrder[i];
