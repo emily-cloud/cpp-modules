@@ -10,13 +10,20 @@
 #include <fstream>
 #include <sstream>
 
+struct node {
+    int value;
+    node *big;
+    node *small;
+};
+
+
 class PmergeMe{
 private:
     std::string input;
-    std::vector<int> vectorData;
-    std::deque<int> dequeData;
-    std::vector<int> sortedVector;
-    std::deque<int> sortedDeque;
+    std::vector<node> vectorData;
+    std::deque<node> dequeData;
+    std::vector<node> sortedVector;
+    std::deque<node> sortedDeque;
     double vectorDuration;
     double dequeDuration;
 
@@ -31,11 +38,13 @@ public:
     bool checkSpaces(const std::string& input);
     bool valideInputSyntax(std::string input);
     void readInputToVector();
-    void readInputToDeque(std::deque<node> dequeData);
+    void readInputToDeque();
     std::vector<node> fordJohnsonSortVector(std::vector<node> &winners);
-    std::deque<node> fordJohnsonSort(std::deque<node> &deq);
-    void compareVectorPair(std::vector<node> &winners, std::vector<node> &smalls);
-    void compareDequePair(std::deque<node> &winners);
+    std::deque<node> fordJohnsonSortDeque(std::deque<node> &deque);
+    void compareVectorPair(std::vector<node> &data,std::vector<node> &winners);
+    void compareDequePair(std::deque<node> &data, std::deque<node> &winners);
+    void readVectorSmalls(std::vector<node> &data,const std::vector<node> &winners, std::vector<node> &smalls);
+    void readDequeSmalls(std::deque<node> &data, const std::deque<node> &winners, std::deque<node> &smalls);
     std::vector<int> generateJacobsthalOrderVector(size_t n);
     std::deque<int> generateJacobsthalOrderDeque(size_t n);
     void binaryInsertVector(std::vector<node> &vec, int value);
@@ -44,13 +53,8 @@ public:
     void readSortDeque();
     void printOutput() const;
     void clearData();
-    //template<typename T> void debugPrint(const T &container) const;
+    template<typename T> void debugPrint(const T &container) const;
 };
 
-struct node {
-    int value_winner;
-    node *big;
-    node *small;
-};
 
 
