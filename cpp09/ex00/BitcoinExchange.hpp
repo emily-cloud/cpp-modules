@@ -26,6 +26,7 @@ public:
     void debugPrintData() const;
     void calculatePrintExchange(const std::string &filename);
     bool validateInput(std::string date, std::string value);
+    bool checkFilename(const std::string& filename);
 };
 
 

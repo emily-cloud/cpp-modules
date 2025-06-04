@@ -30,6 +30,7 @@ public:
     void readVarifyInput(int argc, char **argv);
     template<typename T> void readInputToContainer(T &container);
     bool valideInputSyntax(std::string input);
+    bool checkSpaces(const std::string& input);
     void readSortVector();
     void readSortDeque();
     template<typename T> T fordJohnsonSort(T &container);

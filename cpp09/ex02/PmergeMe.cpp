@@ -28,8 +28,32 @@ PmergeMe& PmergeMe::operator=(const PmergeMe &other){
 
 PmergeMe::~PmergeMe() {}
 
+
+bool PmergeMe::checkSpaces(const std::string& input) {
+    if (input.empty()) {
+        std::cerr << "Error: empty arguement" << std::endl;
+        return false;
+    }
+
+    bool onlySpaces = true;
+    for (size_t i = 0; i < input.length(); ++i) {
+        if (!std::isspace(input[i])) {
+            onlySpaces = false;
+            break;
+        }
+    }
+
+    if (onlySpaces) {
+        std::cerr << "Error: arguement contains only spaces" << std::endl;
+        return false;
+    }
+
+    return true;
+}
+
 void PmergeMe::readVarifyInput(int argc, char **argv){
     std::string rawInput;
+
     for(int i = 1; i < argc; i++){
         rawInput += argv[i];
         rawInput += " ";
@@ -42,8 +66,7 @@ void PmergeMe::readVarifyInput(int argc, char **argv){
 
 bool PmergeMe::valideInputSyntax(std::string input){
     std::vector<int> numbers;
-    if(input.empty()){
-        std::cerr << "Error: empty input" << std::endl;
+    if(!checkSpaces(input)){
         return false;
     }
     std::string::iterator it = input.begin();

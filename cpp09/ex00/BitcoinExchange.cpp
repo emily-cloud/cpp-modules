@@ -53,8 +53,32 @@ void BitcoinExchange::debugPrintData() const{
     }
 }
 
+bool BitcoinExchange::checkFilename(const std::string& filename) {
+    if (filename.empty()) {
+        std::cerr << "Error: empty filename" << std::endl;
+        return false;
+    }
+
+    bool onlySpaces = true;
+    for (size_t i = 0; i < filename.length(); ++i) {
+        if (!std::isspace(filename[i])) {
+            onlySpaces = false;
+            break;
+        }
+    }
+
+    if (onlySpaces) {
+        std::cerr << "Error: filename contains only spaces" << std::endl;
+        return false;
+    }
+
+    return true;
+}
+
 void BitcoinExchange::calculatePrintExchange(const std::string &filename){
     std::ifstream file(filename.c_str());
+    if(!checkFilename(filename))
+        return;
     if(!file.is_open()){
         std::cerr << "Error opening file" << std::endl;
         return;
@@ -78,8 +102,6 @@ void BitcoinExchange::calculatePrintExchange(const std::string &filename){
         valueStr.erase(0, valueStr.find_first_not_of(" \t"));
         valueStr.erase(valueStr.find_last_not_of(" \t") + 1);
 
-       //std::cout << "\ndate: " << date << std::endl;
-       //std::cout << "\nvalue: " << value << std::endl;
         if(!validateInput(date, valueStr))
             continue;
         double value = std::atof(valueStr.c_str());
