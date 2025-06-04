@@ -78,10 +78,9 @@ bool PmergeMe::valideInputSyntax(std::string input){
 template<typename T>
 void PmergeMe::readInputToContainer( T& container){
         std::istringstream iss(input);
-        std::string number;
+        int number;
         while(iss >> number){
-            int num =  stoi(number);
-            container.push_back(num);
+            container.push_back(number);
     }
 }
 
