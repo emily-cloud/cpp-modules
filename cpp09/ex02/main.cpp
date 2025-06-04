@@ -6,7 +6,7 @@
 //./PmergeMe $(shuf -i 1-5000 -n 3000)
 
 int main(int argc, char** argv){
-    if(argc < 2 || (argc == 2 && std::string(argv[1]).empty()) || (argc == 2 && std::string(argv[1]) == "0")){
+    if(argc < 2 || (argc == 2 && std::string(argv[1]).empty())){
         std::cerr << "Usage: " << argv[0] << " <numbers>" << std::endl;
         return 1;
     }

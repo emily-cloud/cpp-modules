@@ -31,7 +31,7 @@ PmergeMe::~PmergeMe() {}
 
 bool PmergeMe::checkSpaces(const std::string& input) {
     if (input.empty()) {
-        std::cerr << "Error: empty arguement" << std::endl;
+        std::cerr << "Error: empty argument" << std::endl;
         return false;
     }
 
@@ -44,7 +44,7 @@ bool PmergeMe::checkSpaces(const std::string& input) {
     }
 
     if (onlySpaces) {
-        std::cerr << "Error: arguement contains only spaces" << std::endl;
+        std::cerr << "Error: argument contains only spaces" << std::endl;
         return false;
     }
 
@@ -59,42 +59,54 @@ void PmergeMe::readVarifyInput(int argc, char **argv){
         rawInput += " ";
     }
 
+    if(!checkSpaces(rawInput))
+        return;
+
     if(!valideInputSyntax(rawInput))
         return;
     input = rawInput;
 }
 
+
 bool PmergeMe::valideInputSyntax(std::string input){
     std::vector<int> numbers;
-    if(!checkSpaces(input)){
-        return false;
-    }
     std::string::iterator it = input.begin();
+
     while(it != input.end()){
-        if((!isdigit(*it) && *it != ' ') || *it == '\n' || *it == '\t' || *it == '0'){
+        // Skip any leading spaces
+        while (it != input.end() && std::isspace(*it)) {
+            ++it;
+        }
+        // Handle end of string
+        if (it == input.end())
+            break;
+        // Must be digit
+        if (!std::isdigit(*it)) {
             std::cerr << "Error: invalid input" << std::endl;
             return false;
         }
+        // Parse number
         int num = 0;
-        while(it != input.end() && isdigit(*it)){
+        while (it != input.end() && std::isdigit(*it)) {
+            if (*it == '0' && num == 0) { // optional: disallow leading zero
+                std::cerr << "Error: invalid input (leading zero or 0)" << std::endl;
+                return false;
+            }
             num = num * 10 + (*it - '0');
             ++it;
         }
-        if( *it == ' ' && num > 0){
-            numbers.push_back(num);
-            ++it;
-        }
-    }
 
-    for(size_t i = 0; i < numbers.size(); i++) {
-        for(size_t j = i + 1; j < numbers.size(); j++) {
-            if(numbers[i] == numbers[j]) {
+        numbers.push_back(num);
+    }
+    // Check for duplicates
+    for (size_t i = 0; i < numbers.size(); ++i) {
+        for (size_t j = i + 1; j < numbers.size(); ++j) {
+            if (numbers[i] == numbers[j]) {
                 std::cerr << "Error: duplicate number found: " << numbers[i] << std::endl;
                 return false;
             }
         }
     }
-    numbers.clear();
     return true;
 }
 
