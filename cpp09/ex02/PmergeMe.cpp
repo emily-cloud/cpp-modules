@@ -103,7 +103,6 @@ T PmergeMe::fordJohnsonSort(T &container) {
 
     T insertOrder;
     generateJacobsthalOrder(reorderedSmalls.size(), insertOrder);// Generate Jacobsthal order for smalls
- 
     // Insert smalls into sortedBigs according to the Jacobsthal order
     for (size_t i = 0; i < insertOrder.size(); ++i) {
         size_t idx = insertOrder[i];
@@ -173,13 +172,13 @@ void PmergeMe::generateJacobsthalOrder(size_t n, T &order) {
     if (n > 0)
         order.push_back(0);
 
-    for (size_t i = jacob.size() - 1; i > 0; --i) {
-        size_t hi = jacob[i];
-        size_t lo = jacob[i - 1];
+    for (size_t i = 1; i < jacob.size(); ++i) {
+        size_t high = jacob[i];
+        size_t low = jacob[i - 1];
 
-        // From hi - 1 down to lo (inclusive)
-        for (size_t j = hi; j-- > lo;) {
-            if (j < n && j != 0) // valid and not 0 (already added)
+        // From high - 1 down to low
+        for (size_t j = high - 1; j + 1 > low; --j) {
+            if (j < n && j != 0) // skip 0, already pushed
                 order.push_back(j);
         }
     }
