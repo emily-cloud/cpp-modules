@@ -53,7 +53,8 @@ void RPN::calculate() {
     std::string element;
     while(iss >> element){
         if(element.size() == 1 && isdigit(element[0])){
-            numbers.push(std::stoi(element));
+            int num = atoi(element.c_str());
+            numbers.push(num);
         }
         else if (element == "+" || element == "-" || element == "*" || element == "/") {
             char op = element[0];
