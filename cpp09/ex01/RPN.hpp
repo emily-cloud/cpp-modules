@@ -7,7 +7,7 @@
 
 class RPN{
 private:
-    std::stack<char> numbers;
+    std::stack<int> numbers;
     int result;
     std::string input;
 

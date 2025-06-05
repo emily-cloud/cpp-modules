@@ -4,6 +4,7 @@
 
 
 //./PmergeMe $(shuf -i 1-5000 -n 3000)
+// ./PmergeMe `shuf -i 1-8000 -n 5000 | tr "\n" " " `
 
 int main(int argc, char** argv){
     if(argc < 2 || (argc == 2 && std::string(argv[1]).empty())){
