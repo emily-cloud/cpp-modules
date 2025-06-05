@@ -109,7 +109,7 @@ void PmergeMe::readInputToVector(){
         while(iss >> number){
             node current;
             current.value = number;
-            current.small = nullptr;
+            current.small = NULL;
             vectorData.push_back(current);
     }
 }
@@ -152,10 +152,10 @@ void PmergeMe::compareVectorPair(std::vector<node> &data, std::vector<node> &win
 
 void PmergeMe::readVectorSmalls(std::vector<node> &data, const std::vector<node> &winners,std::vector<node> &smalls) {
     for (size_t i = 0; i < winners.size(); ++i) {
-        if (winners[i].small != nullptr) {
+        if (winners[i].small != NULL) {
             node smallNode;
             smallNode.value = winners[i].small->value;
-            smallNode.small = nullptr;
+            smallNode.small = NULL;
             smalls.push_back(smallNode);
         }
     }
@@ -163,7 +163,7 @@ void PmergeMe::readVectorSmalls(std::vector<node> &data, const std::vector<node>
     if(data.size() % 2 != 0){
         node lastSmall;
         lastSmall.value = data.back().value;
-        lastSmall.small = nullptr; // No small for the last unmatched
+        lastSmall.small = NULL; // No small for the last unmatched
         smalls.push_back(lastSmall);
     }
 }
@@ -180,7 +180,7 @@ void PmergeMe::binaryInsertVector(std::vector<node> &vec, int value) {
     }
     node current;
     current.value = value;
-    current.small = nullptr; // No small for the new node
+    current.small = NULL; // No small for the new node
     vec.insert(vec.begin() + left, current);
 }
 
@@ -229,7 +229,7 @@ void PmergeMe::readInputToDeque(){
         while(iss >> number){
             node current;
             current.value = number;
-            current.small = nullptr; // No small for the new node
+            current.small = NULL; // No small for the new node
             dequeData.push_back(current);
     }
 }
@@ -272,10 +272,10 @@ void PmergeMe::compareDequePair(std::deque<node> &data, std::deque<node> &winner
 
 void PmergeMe::readDequeSmalls(std::deque<node> &data, const std::deque<node> &winners, std::deque<node> &smalls) {
     for (size_t i = 0; i < winners.size(); ++i) {
-        if (winners[i].small != nullptr) {
+        if (winners[i].small != NULL) {
             node smallNode;
             smallNode.value = winners[i].small->value;
-            smallNode.small = nullptr; // No small for the small node
+            smallNode.small = NULL; // No small for the small node
             smalls.push_back(smallNode);
         }
     }
@@ -283,7 +283,7 @@ void PmergeMe::readDequeSmalls(std::deque<node> &data, const std::deque<node> &w
     if(data.size() % 2 != 0){
         node lastSmall;
         lastSmall.value = data.back().value;
-        lastSmall.small = nullptr; // No small for the last unmatched
+        lastSmall.small = NULL; // No small for the last unmatched
         smalls.push_back(lastSmall);
     }
 }
@@ -300,7 +300,7 @@ void PmergeMe::binaryInsertDeque(std::deque<node> &deq, int value) {
     }
     node current;
     current.value = value;
-    current.small = nullptr; // No small for the new node
+    current.small = NULL; // No small for the new node
     deq.insert(deq.begin() + left, current);
 }
 
