@@ -124,6 +124,43 @@ void BitcoinExchange::calculatePrintExchange(const std::string &filename){
 }
 
 bool BitcoinExchange::validateInput(std::string date, std::string valueStr){
+     std::istringstream iss(date);
+     int year, month, day;
+     char dash;
+     iss >> year;
+     if(year < 0 || year > 9999) {
+        std::cerr << "Error: invalid year in date => " << date << std::endl;
+        return false;
+     }
+     iss >> dash;
+     if(dash != '-') {
+        std::cerr << "Error: invalid date format => " << date << std::endl;
+        return false;
+     }
+     iss >> month;
+    if(month < 1 || month > 12) {
+        std::cerr << "Error: invalid month in date => " << date << std::endl;
+        return false;
+    }
+    iss >> dash;
+    if(dash != '-') {
+        std::cerr << "Error: invalid date format => " << date << std::endl;
+        return false;
+     }
+    iss >> day;
+    if((month == 4 || month == 6 || month == 9 || month == 11) && (day > 30 || day < 1))
+    {
+        std::cerr << "Error: invalid day in date => " << date << std::endl;
+        return false;
+    }
+    if((month == 2) && (day > 28 || day < 1)) {
+        std::cerr << "Error: invalid day in date => " << date << std::endl;
+        return false;
+    }
+    if((month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) && (day > 31 || day < 1)){
+        std::cerr << "Error: invalid day in date => " << date << std::endl;
+        return false;
+    }
     if(date.length() != 10){
         std::cerr << "Error: invalid date format =>" << date << std::endl;
         return false;
