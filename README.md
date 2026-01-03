@@ -1,73 +1,120 @@
-# C++ in 42 Berlin
+# C++ at 42 Berlin
 
 ## Introduction
-C++ is a powerful and versatile programming language that builds upon the foundation of C while introducing object-oriented programming (OOP), stronger type safety, and various modern features. At **42 Berlin**, the C++ modules provide a structured way to learn the language, from basic syntax to advanced concepts like templates, polymorphism, and memory management.
 
-## Structure of C++ Modules
-The C++ curriculum at **42 Berlin** is divided into multiple modules, each progressively increasing in complexity. Here’s a general overview of what each module covers:
+C++ is a powerful, low-level programming language that builds on C by introducing object-oriented programming (OOP), stronger type safety, and abstraction mechanisms.  
+At **42 Berlin**, the C++ curriculum is designed to progressively teach students modern C++ concepts while enforcing strict discipline in memory management, design, and compilation rules.
 
-### **Module 00: Basics of C++**
-- Setting up a C++ environment
-- Basic syntax, data types, and I/O operations
-- Understanding classes and member functions
-- The concept of Orthodox Canonical Form (OCF)
+The C++ modules (CPP 00 → CPP 09) focus on understanding **how C++ works under the hood**, rather than relying on high-level conveniences.
 
-### **Module 01: Memory and Dynamic Allocation**
-- Introduction to heap memory management
-- Using `new` and `delete`
-- Understanding references and pointers
-- The concept of zombie objects and preventing memory leaks
+---
 
-### **Module 02: Ad-hoc Polymorphism and Operator Overloading**
-- Function overloading
+## Structure of the C++ Modules
+
+The C++ curriculum at 42 consists of **10 modules**, each building upon the previous one.
+
+### CPP Module 00 — Basics of C++
+- Namespaces
+- Classes and member functions
+- Input/output streams (`std::cout`, `std::cin`)
+- Initialization lists
+- Orthodox Canonical Form (OCF)
+- Basic Makefiles
+
+---
+
+### CPP Module 01 — Memory Allocation
+- Stack vs heap memory
+- `new` and `delete`
+- References vs pointers
+- Object lifetime
+- Zombie objects
+- Preventing memory leaks
+
+---
+
+### CPP Module 02 — Ad-hoc Polymorphism
 - Operator overloading
-- The importance of `const` correctness
+- Copy constructor and assignment operator
+- Const correctness
+- Fixed-point number implementation
 
-### **Module 03: Inheritance and Derived Classes**
-- Introduction to inheritance
+---
+
+### CPP Module 03 — Inheritance
 - Base and derived classes
-- Virtual functions and function overriding
-- Abstract classes and pure virtual functions
+- Access specifiers (`public`, `protected`, `private`)
+- Method overriding
+- Class hierarchies
 
-### **Module 04: Subtype Polymorphism**
-- Understanding runtime polymorphism
-- Virtual tables (vtable) and virtual pointers (vptr)
-- `dynamic_cast` and type identification
-- Handling exceptions and error management
+---
 
-### **Module 05: Files and Streams**
-- Working with file streams
-- Input/output file handling
-- String streams (`std::stringstream`)
+### CPP Module 04 — Subtype Polymorphism
+- Virtual functions
+- Virtual destructors
+- Abstract classes and interfaces
+- Runtime polymorphism using base class pointers
 
-### **Module 06: C++ Templates**
-- Function templates and class templates
-- Template specialization and non-type parameters
+---
 
-### **Module 07: STL (Standard Template Library)**
-- Introduction to STL containers (`vector`, `list`, `map`, etc.)
-- Iterators and algorithms
-- Understanding the advantages of STL
+### CPP Module 05 — Exceptions
+- `try`, `catch`, and `throw`
+- Custom exception classes
+- Exception safety
+- `std::exception`
 
-### **Module 08 & 09: Advanced Topics**
-- Multithreading and concurrency
-- Smart pointers (`unique_ptr`, `shared_ptr`, `weak_ptr`)
-- Understanding RAII (Resource Acquisition Is Initialization)
+---
+
+### CPP Module 06 — Casting
+- `static_cast`
+- `dynamic_cast`
+- `const_cast`
+- `reinterpret_cast`
+- Type conversion rules and pitfalls
+
+---
+
+### CPP Module 07 — Templates
+- Function templates
+- Class templates
+- Generic programming
+- Template instantiation
+
+---
+
+### CPP Module 08 — STL Containers
+- Standard containers (`vector`, `list`, `map`, `stack`, etc.)
+- Iterators
+- Algorithms
+- When and how to use STL correctly
+
+---
+
+### CPP Module 09 — STL in Practice
+- Applying STL to real problems 
+- Performance considerations
+- Combining containers and algorithms
+- Advanced exercises using STL
+
+CPP09 focuses on applying STL containers and algorithmic reasoning to solve a real-world problem.  
+By implementing the Ford–Johnson (merge-insertion) sorting algorithm, students learn how to optimize comparisons, manage different containers, and measure performance accurately. This module reinforces careful design, efficiency, and a deeper understanding of how algorithms behave in practice.
+
+---
 
 ## Key Rules and Constraints
-- **No use of STL containers or algorithms before Module 08 & 09.**
-- **Code must be compiled with**
-  ```sh
+
+- **C++ standard:**  
+  ```bash
   c++ -Wall -Wextra -Werror -std=c++98
   ```
-- **Follow good coding practices:** Use proper encapsulation, avoid memory leaks, and adhere to the C++ style guide.
 
-## Tips for Success
-- **Understand memory management:** C++ gives fine control over memory, making it essential to properly allocate and deallocate memory.
-- **Practice object-oriented design:** Modular and reusable code will make complex projects easier to manage.
-- **Debug effectively:** Learn to use `gdb` or `lldb` for debugging your programs.
-- **Ask for peer reviews:** Code reviews help improve understanding and catch hidden issues.
+## Author
 
-## Conclusion
-C++ at 42 Berlin is designed to help you develop strong problem-solving skills while learning an industry-relevant language. By progressing through these modules, you will gain a deep understanding of both the fundamentals and the advanced capabilities of C++. 🚀
+Developed by **Huayun Ai**  
+Student at **42 Berlin**
+
+## License
+
+This project is part of the **42 curriculum** and was developed for educational purposes
+Reuse, modification, and distribution may be subject to **42 school policies**.  
 
