@@ -14,7 +14,6 @@ The C++ modules (CPP 00 → CPP 09) focus on understanding **how C++ works under
 The C++ curriculum at 42 consists of **10 modules**, each building upon the previous one.
 
 ### CPP Module 00 — Basics of C++
-- Namespaces
 - Classes and member functions
 - Input/output streams (`std::cout`, `std::cin`)
 - Initialization lists
